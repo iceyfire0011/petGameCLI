@@ -10,4 +10,6 @@ public class Elephant extends Animal{
     public double feed(double amountOfFoodInKg){
         return 10*amountOfFoodInKg;
     }
+
+    
 }

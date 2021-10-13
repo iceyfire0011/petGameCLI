@@ -43,4 +43,6 @@ public abstract class Animal{
     //Getter and Setter
 
     public abstract double feed(double amountOfFoodInKg);
+
+    
 }
