@@ -27,6 +27,7 @@ public class Game{
         System.out.println("Please enter balance for each player: ");
         double balance = sc.nextDouble();
         iGameService.gameRun(numberOfPlayer, roundNumber, roundLimit, balance);
+        sc.close();
     }
 
     public String gameFinish(String playerName){

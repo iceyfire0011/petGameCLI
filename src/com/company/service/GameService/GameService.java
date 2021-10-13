@@ -41,6 +41,7 @@ public class GameService implements IGameService {
         // }
 
         System.out.println(numberOfPlayer + ", " + roundNumber + ", " + roundLimit + ", " + balance);
+        scanner.close();
         return 0;
     }
 }
