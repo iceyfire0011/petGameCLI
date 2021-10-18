@@ -5,7 +5,7 @@ import com.company.enums.FoodType;
 public abstract class Food{
     private String foodName;
     private String foodPrice;
-    private FoodType foodType;    
+    private FoodType foodType;
     
     public String getFoodName() {
         return foodName;

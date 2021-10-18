@@ -1,4 +1,5 @@
 package com.company.model.players;
+import java.util.LinkedHashMap;
 import java.util.List;
 import com.company.model.animals.Animal;
 import com.company.model.foods.Food;
@@ -7,8 +8,8 @@ public class Player{
     private int id;
     private String name;
     private double balance;
-    private List<Animal> animals;
-    private List<Food> foods;
+    private LinkedHashMap<Animal,Float> animals;
+    private LinkedHashMap<Food, Float> foods;
 
     public int getId() {
         return id;
@@ -34,19 +35,19 @@ public class Player{
         this.balance = balance;
     }
 
-    public List<Animal> getAnimals() {
+    public LinkedHashMap<Animal, Float> getAnimals(){
         return animals;
     }
 
-    public void setAnimals(List<Animal> animals) {
+    public void setAnimals(LinkedHashMap<Animal, Float> animals){
         this.animals = animals;
     }
 
-    public List<Food> getFoods() {
+    public LinkedHashMap<Food, Float> getFoods(){
         return foods;
     }
 
-    public void setFoods(List<Food> foods) {
+    public void setFoods(LinkedHashMap<Food, Float> foods){
         this.foods = foods;
     }
 
