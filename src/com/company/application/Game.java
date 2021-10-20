@@ -15,7 +15,7 @@ public class Game{
 
     public void gameInit(){
         Scanner sc = new Scanner(System.in);
-        int roundNumber = 0, roundLimit = 0, numberOfPlayer = 0;
+        int roundNumber = 1, roundLimit = 0, numberOfPlayer = 0;
         while(numberOfPlayer < 1 || numberOfPlayer > 4){
             System.out.println("Please enter number of player (1-4): ");
             numberOfPlayer = sc.nextInt();

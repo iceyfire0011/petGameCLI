@@ -1,5 +1,5 @@
 package com.company.enums;
 
 public enum FoodType {
-    GRAINS, GRASSES, MEATS
+    GRAINS, GRASSES, MEATS, MANNA
 }

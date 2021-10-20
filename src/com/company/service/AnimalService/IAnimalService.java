@@ -10,4 +10,6 @@ public interface IAnimalService{
     boolean validateNewAnimal(Map<Animal, Float> animals,Animal animal);
 
     Map<Animal, Float> notFullHealthAnimals(Map<Animal, Float> animals);
+
+    Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal);
 }

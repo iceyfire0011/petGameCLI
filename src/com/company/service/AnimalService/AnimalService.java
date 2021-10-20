@@ -33,4 +33,13 @@ public class AnimalService implements IAnimalService{
         }
         return unhealthyAnimals;
     }
+
+    @Override
+    public Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal) {
+        childAnimal.setSex(femaleAnimal.getSex());
+        if(Math.random()>0.5){
+            childAnimal.setSex(maleAnimal.getSex());
+        }
+        return childAnimal;
+    }
 }
