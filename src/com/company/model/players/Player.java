@@ -1,6 +1,9 @@
 package com.company.model.players;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+
+import com.company.enums.FoodType;
 import com.company.model.animals.Animal;
 import com.company.model.foods.Food;
 
@@ -8,8 +11,8 @@ public class Player{
     private int id;
     private String name;
     private double balance;
-    private LinkedHashMap<Animal,Float> animals;
-    private LinkedHashMap<Food, Float> foods;
+    private LinkedList<Animal> animals;
+    private LinkedHashMap<FoodType,Float> foodWallets;
 
     public int getId() {
         return id;
@@ -35,20 +38,20 @@ public class Player{
         this.balance = balance;
     }
 
-    public LinkedHashMap<Animal, Float> getAnimals(){
+    public LinkedList<Animal> getAnimals(){
         return animals;
     }
 
-    public void setAnimals(LinkedHashMap<Animal, Float> animals){
+    public void setAnimals(LinkedList<Animal> animals){
         this.animals = animals;
     }
 
-    public LinkedHashMap<Food, Float> getFoods(){
-        return foods;
+    public LinkedHashMap<FoodType, Float> getFoodWallets(){
+        return foodWallets;
     }
 
-    public void setFoods(LinkedHashMap<Food, Float> foods){
-        this.foods = foods;
+    public void setFoodWallets(LinkedHashMap<FoodType, Float> foodWallets){
+        this.foodWallets = foodWallets;
     }
 
     @Override

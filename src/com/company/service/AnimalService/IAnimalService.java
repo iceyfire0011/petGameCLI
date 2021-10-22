@@ -12,4 +12,9 @@ public interface IAnimalService{
     Map<Animal, Float> notFullHealthAnimals(Map<Animal, Float> animals);
 
     Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal);
+
+    Animal animalFactory(int animalOption);
+
+    void chooseGender(Animal animal, int genderChoice);
+
 }

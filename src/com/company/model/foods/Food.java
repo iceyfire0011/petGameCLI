@@ -4,7 +4,7 @@ import com.company.enums.FoodType;
 
 public abstract class Food{
     private String foodName;
-    private String foodPrice;
+    private double foodPrice;
     private FoodType foodType;
     
     public String getFoodName() {
@@ -13,10 +13,10 @@ public abstract class Food{
     public void setFoodName(String foodName) {
         this.foodName = foodName;
     }
-    public String getFoodPrice() {
+    public double getFoodPrice() {
         return foodPrice;
     }
-    public void setFoodPrice(String foodPrice) {
+    public void setFoodPrice(double foodPrice) {
         this.foodPrice = foodPrice;
     }
     public FoodType getFoodType() {
@@ -25,5 +25,4 @@ public abstract class Food{
     public void setFoodType(FoodType foodType) {
         this.foodType = foodType;
     }
-    
 }

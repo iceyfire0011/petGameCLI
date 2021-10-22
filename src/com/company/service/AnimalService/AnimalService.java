@@ -1,9 +1,11 @@
 package com.company.service.AnimalService;
 
-import com.company.model.animals.Animal;
+import com.company.enums.Gender;
+import com.company.model.animals.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class AnimalService implements IAnimalService{
     @Override
@@ -41,5 +43,47 @@ public class AnimalService implements IAnimalService{
             childAnimal.setSex(maleAnimal.getSex());
         }
         return childAnimal;
+    }
+
+    @Override
+    public Animal animalFactory(int animalOption){
+        Animal animal = null;
+        switch(animalOption){
+            case 0:
+                break;
+            case 1:
+                animal = new Cat();
+                break;
+            case 2:
+                animal = new Elephant();
+                break;
+            case 3:
+                animal = new Guppy();
+                break;
+            case 4:
+                animal=new Mouse();
+                break;
+            default:
+                System.out.println("Wrong input! Please select an animal");
+        }
+        return animal;
+    }
+
+    public void chooseGender(Animal animal, int genderChoice){
+        System.out.println("male? press- 1");
+        System.out.println("female? press- 2");
+        switch(genderChoice){
+            case 1:
+                animal.setSex(Gender.Male);
+                break;
+            case 2:
+                animal.setSex(Gender.Female);
+                break;
+            default:
+                System.out.println("Wrong input!. Please Choose gender again.");
+                Scanner sc = new Scanner(System.in);
+                chooseGender(animal, sc.nextInt());
+                sc.close();
+        }
     }
 }

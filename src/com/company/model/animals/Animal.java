@@ -1,16 +1,25 @@
 package com.company.model.animals;
 
+import com.company.enums.FoodType;
 import com.company.enums.Gender;
+import com.company.model.foods.Food;
 
 import java.security.SecureRandom;
+import java.util.LinkedList;
 
 public abstract class Animal {
     private double animalPrice;
     private String animalName;
     private Gender sex;
     private double healthStatus = 100;
+    private boolean MateStatus = false;
+    private LinkedList<FoodType> foodHabit;
 
-    //Getter and Setter
+    public Animal(){
+        this.setRandomName();
+    }
+
+    //<Getter and Setter>
     public double getAnimalPrice() {
         return animalPrice;
     }
@@ -42,10 +51,21 @@ public abstract class Animal {
     public void setHealthStatus(double healthStatus) {
         this.healthStatus = healthStatus;
     }
-    //Getter and Setter
 
-    public abstract double feed(double amountOfFoodInKg);
+    public LinkedList<FoodType> getFoodHabit(){
+        return foodHabit;
+    }
 
+    public void setFoodHabit(LinkedList<FoodType> foodHabit){
+        this.foodHabit = foodHabit;
+    }
+    //<Getter and Setter/>
+
+    //<Abstraction>
+    public abstract double feed(double amountOfFoodInKg, Food food);
+    //<Abstraction/>
+
+    //<Helper>
     public void setRandomName() {
         String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         SecureRandom rnd = new SecureRandom();
@@ -53,7 +73,12 @@ public abstract class Animal {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        this.animalName =  sb.toString();
+        setAnimalName(sb.toString());
     }
+
+    boolean feedValidation(Food food){
+        return this.getFoodHabit().contains(food);
+    }
+    //<Helper/>
 
 }
