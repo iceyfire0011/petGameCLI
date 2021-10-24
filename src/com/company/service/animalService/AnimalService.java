@@ -1,27 +1,61 @@
 package com.company.service.animalService;
 
-import com.company.PropertyConstant;
+import com.company.constantManager.PropertyConstant;
 import com.company.enums.Gender;
 import com.company.model.animals.*;
 import com.company.model.foods.Food;
 import com.company.model.players.Player;
+import com.company.service.presentation.IPresentationService;
+import com.company.service.presentation.PresentationService;
 
 import java.util.Scanner;
 
 public class AnimalService implements IAnimalService{
+    IPresentationService _presentationService;
+
+    public AnimalService(){
+        this._presentationService = new PresentationService();
+    }
+
     @Override
     public void changeHealth(Animal animal, float healthPointChange){
         animal.setHealthStatus(animal.getHealthStatus() + healthPointChange);
     }
 
     @Override
-    public Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal){
-        childAnimal.setSex(femaleAnimal.getSex());
-        if(Math.random() > 0.5){
-            childAnimal.setSex(maleAnimal.getSex());
+    public void mating(Player player, int firstAnimalNumber, int secondAnimalNumber){
+        var firstAnimal = player.getAnimals().get(firstAnimalNumber);
+        var secondAnimal = player.getAnimals().get(secondAnimalNumber);
+        if(mateValidation(firstAnimal, secondAnimal)){
+            var childAnimal = firstAnimal;
+            childAnimal.setRandomName();
+            if(Math.random() > 0.5){
+                childAnimal.setSex(secondAnimal.getSex());
+            }
+            player.getAnimals().put(player.getAnimals().size(), childAnimal);
         }
-        return childAnimal;
     }
+
+    private boolean mateValidation(Animal firstAnimal, Animal secondAnimal){
+        if(firstAnimal.isMateStatus()){
+            System.out.println(firstAnimal.getAnimalName() + " is already in matting. Please select different animal.");
+            return false;
+        }
+        if(secondAnimal.isMateStatus()){
+            System.out.println(secondAnimal.getAnimalName() + " is already in matting. Please select different animal.");
+            return false;
+        }
+        if(!firstAnimal.getClass().getName().equals(secondAnimal.getClass().getName())){
+            System.out.println("Wrong species for mating. Please select same species");
+            return false;
+        }
+        if(firstAnimal.getSex().equals(secondAnimal.getSex())){
+            System.out.println("Please pair animals with different gender.");
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     public Animal animalFactory(int animalOption){
@@ -58,18 +92,29 @@ public class AnimalService implements IAnimalService{
             default:
                 System.out.println("Wrong input!. Please Choose gender again.");
                 Scanner sc = new Scanner(System.in);
-                chooseGender(animal, sc.nextInt());
+                int gender = sc.nextInt();
+                chooseGender(animal, gender);
                 sc.close();
         }
     }
 
     @Override
     public void animalDetailsListByPlayer(Player player){
-        System.out.println("Serial \t AnimalName \t Gender \t HealthStatus \t MateStatus");
+        var data = new String[]{"Serial", "AnimalType", "AnimalName", "Gender", "HealthStatus", "MateStatus"};
+        _presentationService.printAsTableRow(true, data);
+        int length = data.length * (PropertyConstant.MAX_PRESENTATION_COLUMN_LENGTH + 1);
         for(var keyItem : player.getAnimals().keySet()){
             var animal = player.getAnimals().get(keyItem);
-            System.out.println(keyItem + " \t " + animal.getAnimalName() + " \t " + animal.getSex() + " \t " + animal.getHealthStatus() + " \t " + animal.isMateStatus());
+           data = new String[]{
+                    keyItem.toString(),
+                    animal.getClass().getSimpleName(),
+                    animal.getAnimalName(),
+                    animal.getSex().toString(),
+                    animal.getHealthStatus() + "",
+                    animal.isMateStatus() + ""};
+            _presentationService.printAsTableRow(false, data);
         }
+        _presentationService.printSeparator(length);
     }
 
     @Override
@@ -87,7 +132,7 @@ public class AnimalService implements IAnimalService{
         Food food = player.getFoodWallets().get(foodSerial);
         var missingHealth = 100 - animal.getHealthStatus();
         feedValidation(animal, food, amount);
-        var foodUnit = animal.feed(food);
+        var foodUnit = animal.feedUnit();
         var requiredFoodUnit = missingHealth / 10;
         int eatenFood = 0;
         for(int i = 0; i < requiredFoodUnit; i++){
@@ -98,9 +143,9 @@ public class AnimalService implements IAnimalService{
             changeHealth(player.getAnimals().get(animalSerial), PropertyConstant.HEALTH_VARIATION);
         }
         player.getFoodWallets().get(foodSerial).setFoodAmount(food.getFoodAmount() - eatenFood);
-        System.out.println(animal.getAnimalName() + " has eaten " + eatenFood + "kg of" + food.getFoodType()
+        System.out.println(animal.getAnimalName() + " has eaten " + eatenFood + " kg of " + food.getFoodType()
                                    + ". Now its current health is " + player.getAnimals().get(animalSerial).getHealthStatus()
-                                   + ". Remaining " + amount + "of " + food.getFoodType() + " has return to food wallet of player " + player.getName());
+                                   + ". Remaining " + amount + " of " + food.getFoodType() + " has return to food wallet of player " + player.getName());
     }
 
     private void feedValidation(Animal animal, Food food, double amount){
@@ -113,7 +158,7 @@ public class AnimalService implements IAnimalService{
             System.out.println("This animal cannot eat " + food.getFoodType() + ". Please choose different food");
             return;
         }
-        if(food.getFoodAmount()<amount){
+        if(food.getFoodAmount() < amount){
             System.out.println("Invalid amount of food to feed. Please buy more food first.");
         }
     }

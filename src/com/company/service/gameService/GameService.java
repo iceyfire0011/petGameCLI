@@ -1,9 +1,10 @@
 package com.company.service.gameService;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Scanner;
 
-import com.company.PropertyConstant;
+import com.company.constantManager.PropertyConstant;
 import com.company.model.animals.*;
 import com.company.model.players.Player;
 import com.company.service.animalService.AnimalService;
@@ -30,7 +31,7 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public int gameRun(int numberOfPlayer, int roundNumber, int roundLimit, double balance){
+    public int gameControl(int numberOfPlayer, int roundNumber, int roundLimit, double balance){
         Scanner scanner = new Scanner(System.in);
 
         for(int i = 0; i < numberOfPlayer; i++){
@@ -48,10 +49,11 @@ public class GameService implements IGameService{
                 boolean turnFinish = false;
                 while(!turnFinish){
                     System.out.println("Dear player " + player.getName() + "; Your current Balance is: " + player.getBalance());
-                    System.out.println("Available animal list:\n");
+                    System.out.println("\nAvailable animal list:");
                     _animalService.animalDetailsListByPlayer(player);
-                    System.out.println("Available Food list:\n");
+                    System.out.println("\nAvailable Food list:");
                     _foodService.foodDetailsListByPlayer(player);
+                    System.out.println();
                     printInstruction();
                     int finishTurn = scanner.nextInt();
                     switch(finishTurn){
@@ -71,7 +73,8 @@ public class GameService implements IGameService{
                                 System.out.println("Please select gender:");
                                 System.out.println("male? press- 1");
                                 System.out.println("female? press- 2");
-                                _animalService.chooseGender(animal, scanner.nextInt());
+                                int gender = scanner.nextInt();
+                                _animalService.chooseGender(animal, gender);
                                 _storeService.buyAnimal(player, animal);
                             }else{
                                 System.out.println("Wrong input! Please try again");
@@ -118,6 +121,10 @@ public class GameService implements IGameService{
                             _storeService.sellFood(player, serial, amount);
                             break;
                         case 6://send matting
+                            System.out.println("Please input two animal serial for matting");
+                            int firstAnimalSerial = scanner.nextInt();
+                            int secondAnimalSerial = scanner.nextInt();
+                            _animalService.mating(player, firstAnimalSerial, secondAnimalSerial);
                             break;
                         default:
                             System.out.println("Wrong input. Please select menu from instruction");
@@ -126,9 +133,8 @@ public class GameService implements IGameService{
             }
             roundNumber++;
         }
-
-        System.out.println(numberOfPlayer + ", " + roundNumber + ", " + roundLimit + ", " + balance);
         scanner.close();
+        gameFinish(_playerService.getPlayers());
         return 0;
     }
 
@@ -159,5 +165,22 @@ public class GameService implements IGameService{
         System.out.println("Back to main menu? press- 0");
     }
 
+    private void gameFinish(List<Player> players){
+        if(players.size() < 1){
+            return;
+        }
+        var winningPlayer = players.stream().findFirst().get();
+        for(Player player : players){
+            _storeService.sellAllAnimalByPlayer(player);
+            _storeService.sellAllFoodByPlayer(player);
+            if(player.getId() == winningPlayer.getId()){
+                continue;
+            }
+            if(player.getBalance() > winningPlayer.getBalance()){
+                winningPlayer = player;
+            }
+        }
+        System.out.println("Congratulations! " + winningPlayer.getName() + "is the winner.\nScore: " + winningPlayer.getBalance());
+    }
 
 }

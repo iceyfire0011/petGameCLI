@@ -13,7 +13,7 @@ public class Game{
     }
 
 
-    public void gameInit(){
+    public void run(){
         Scanner sc = new Scanner(System.in);
         int roundNumber = 1, roundLimit = 0, numberOfPlayer = 0;
         while(numberOfPlayer < 1 || numberOfPlayer > 4){
@@ -26,11 +26,7 @@ public class Game{
         }
         System.out.println("Please enter balance for each player: ");
         double balance = sc.nextDouble();
-        iGameService.gameRun(numberOfPlayer, roundNumber, roundLimit, balance);
+        iGameService.gameControl(numberOfPlayer, roundNumber, roundLimit, balance);
         sc.close();
-    }
-
-    public String gameFinish(String playerName){
-        return "Congratulation! The winner is: " + playerName;
     }
 }

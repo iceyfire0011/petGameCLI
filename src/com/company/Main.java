@@ -18,8 +18,7 @@ public class Main {
     private void run(Game game) {
         this.game = game;
         System.out.println("STARTING THE Game");
-        game.gameInit();
-        System.out.println(game.gameFinish("player 1"));
+        game.run();
         System.out.println("Game Over!");
     }
 

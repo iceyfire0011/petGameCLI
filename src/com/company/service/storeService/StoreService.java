@@ -20,12 +20,19 @@ public class StoreService implements IStoreService{
     @Override
     public void sellAnimal(Player player, int serial){
         var animal = player.getAnimals().get(serial);
-        if(!animal.isMateStatus()){
+        if(animal.isMateStatus()){
             System.out.println("This animal is busy on mate. You cannot sell it in this turn.");
             return;
         }
         player.getAnimals().remove(serial);
         player.setBalance(player.getBalance() + ((animal.getHealthStatus() / 100) * animal.getAnimalPrice()));
+    }
+
+    @Override
+    public void sellAllAnimalByPlayer(Player player){
+        for(var animalKey : player.getAnimals().keySet()){
+            sellAnimal(player, animalKey);
+        }
     }
     //<Animal Transaction/>
 
@@ -42,7 +49,7 @@ public class StoreService implements IStoreService{
     }
 
     @Override
-    public void sellFood(Player player, int serial, int amount){
+    public void sellFood(Player player, int serial, double amount){
         if(serial < 0 && player.getFoodWallets().size() < serial){
             System.out.println("Invalid serial. Please input a valid serial");
             return;
@@ -54,6 +61,13 @@ public class StoreService implements IStoreService{
         }
         player.getFoodWallets().get(serial).setFoodAmount(food.getFoodAmount() - amount);
         player.setBalance(player.getBalance() + (food.getFoodPrice() * amount));
+    }
+
+    @Override
+    public void sellAllFoodByPlayer(Player player){
+        for(var foodKey : player.getFoodWallets().keySet()){
+            sellFood(player, foodKey, player.getFoodWallets().get(foodKey).getFoodAmount());
+        }
     }
     //<Food Transaction/>
 

@@ -7,7 +7,7 @@ import com.company.model.players.Player;
 public interface IAnimalService{
     void changeHealth(Animal animal, float healthPointChange);
 
-    Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal);
+    void mating(Player player,int firstAnimalNumber, int secondAnimalNumber);
 
     Animal animalFactory(int animalOption);
 

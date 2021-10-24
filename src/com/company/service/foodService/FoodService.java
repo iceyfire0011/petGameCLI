@@ -3,10 +3,18 @@ package com.company.service.foodService;
 import com.company.enums.FoodType;
 import com.company.model.foods.Food;
 import com.company.model.players.Player;
+import com.company.service.presentation.IPresentationService;
+import com.company.service.presentation.PresentationService;
 
 import java.util.LinkedHashMap;
 
 public class FoodService implements IFoodService{
+
+    IPresentationService _presentationService;
+
+    public FoodService(){
+        this._presentationService = new PresentationService();
+    }
 
     public void initiateFoodWallet(Player player){
         LinkedHashMap<Integer, Food> foodWallet = new LinkedHashMap();
@@ -26,10 +34,11 @@ public class FoodService implements IFoodService{
 
     @Override
     public void foodDetailsListByPlayer(Player player){
-        System.out.println("Serial \t FoodName \t AvailableAmount \t Price");
+        _presentationService.printAsTableRow(true, new String[]{"Serial", "FoodName", "AvailableAmount", "Price"});
         for(var keyItem : player.getFoodWallets().keySet()){
             var food = player.getFoodWallets().get(keyItem);
-            System.out.println(keyItem + " \t " + food.getFoodType() + " \t " + food.getFoodAmount() + " \t " + food.getFoodPrice());
+            _presentationService.printAsTableRow(false, new String[]{
+                    keyItem.toString(), food.getFoodType().toString(), food.getFoodAmount() + "", food.getFoodPrice() + ""});
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.company.model.animals;
 
-import com.company.PropertyConstant;
+import com.company.constantManager.PropertyConstant;
 import com.company.enums.FoodType;
 import com.company.enums.Gender;
 import com.company.model.foods.Food;
@@ -72,7 +72,7 @@ public abstract class Animal {
     //<Getter and Setter/>
 
     //<Abstraction>
-    public abstract double feed(Food food);
+    public abstract double feedUnit();
     //<Abstraction/>
 
     //<Helper>
@@ -87,7 +87,7 @@ public abstract class Animal {
     }
 
     public boolean foodHabitValidation(Food food){
-        return this.getFoodHabit().contains(food);
+        return this.getFoodHabit().contains(food.getFoodType());
     }
     //<Helper/>
 

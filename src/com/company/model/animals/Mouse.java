@@ -13,8 +13,7 @@ public class Mouse extends Animal{
     }
 
     @Override
-    public double feed(Food food){
-        this.setHealthStatus(this.getHealthStatus() + this.getHealthStatus() * 0.1);
+    public double feedUnit(){
         return 0.1;
     }
 }
