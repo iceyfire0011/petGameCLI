@@ -3,6 +3,7 @@ package com.company.service.gameService;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
+import com.company.PropertyConstant;
 import com.company.model.animals.*;
 import com.company.model.players.Player;
 import com.company.service.animalService.AnimalService;
@@ -57,7 +58,7 @@ public class GameService implements IGameService{
                         case 0://finish turn
                             for(var key : player.getAnimals().keySet()){
                                 var animal = player.getAnimals().get(key);
-                                _animalService.changeHealth(animal, -10);
+                                _animalService.changeHealth(animal, -PropertyConstant.HEALTH_VARIATION);
                             }
                             turnFinish = true;
                             break;
@@ -73,7 +74,8 @@ public class GameService implements IGameService{
                                 _animalService.chooseGender(animal, scanner.nextInt());
                                 _storeService.buyAnimal(player, animal);
                             }else{
-                                System.out.println("Wrong input! Please try again");                            }
+                                System.out.println("Wrong input! Please try again");
+                            }
                             break;
                         case 2://purchase food
                             System.out.println("Please select a Food:");
@@ -84,18 +86,31 @@ public class GameService implements IGameService{
                             _storeService.buyFood(player, foodOption, foodAmount);
                             break;
                         case 3://feed animal
+                            if(_animalService.isPlayerHasAnimal(player)){
+                                System.out.println("Please select an animal to feed:");
+                                int animalSerial = scanner.nextInt();
+                                System.out.println("Please select a food to feed:");
+                                int foodSerial = scanner.nextInt();
+                                System.out.println("Please select amount of food to feed:");
+                                double amount = scanner.nextDouble();
+                                _animalService.feedAnimalByPlayer(player, animalSerial, foodSerial, amount);
+                            }else{
+                                System.out.println("You don't have animal. Please buy animal first");
+                            }
                             break;
                         case 4://sell animal
                             if(_animalService.isPlayerHasAnimal(player)){
-                                _animalService.animalDetailsListByPlayer(player);
+                                //_animalService.animalDetailsListByPlayer(player);
                                 System.out.println("Please choose an animal to sell by giving serial no as input:");
                                 int serial = scanner.nextInt();
                                 _storeService.sellAnimal(player, serial);
                                 _playerService.reSerializePlayerAnimalListIndex(player);
+                            }else{
+                                System.out.println("You don't have animal. Please buy animal first");
                             }
                             break;
                         case 5://sell food
-                            _foodService.foodDetailsListByPlayer(player);
+                            //_foodService.foodDetailsListByPlayer(player);
                             System.out.println("Please choose a food to sell by giving serial no as input:");
                             int serial = scanner.nextInt();
                             System.out.println("Please input amount of food for sell:");

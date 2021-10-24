@@ -3,9 +3,9 @@ package com.company.model.animals;
 import com.company.enums.FoodType;
 import com.company.model.foods.Food;
 
-public class Mouse extends Animal {
+public class Mouse extends Animal{
 
-    public Mouse() {
+    public Mouse(){
         this.setAnimalPrice(10);
         this.getFoodHabit().add(FoodType.GRAINS);
         this.getFoodHabit().add(FoodType.MEATS);
@@ -13,11 +13,8 @@ public class Mouse extends Animal {
     }
 
     @Override
-    public double feed(double amountOfFoodInKg, Food food) {
-        if (this.getHealthStatus() < 100 && this.feedValidation(food)) {
-            this.setHealthStatus(this.getHealthStatus() + this.getHealthStatus() * 0.1);
-            return 0.1 * amountOfFoodInKg;
-        }
-        return 0;
+    public double feed(Food food){
+        this.setHealthStatus(this.getHealthStatus() + this.getHealthStatus() * 0.1);
+        return 0.1;
     }
 }

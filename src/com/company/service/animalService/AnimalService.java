@@ -1,38 +1,17 @@
 package com.company.service.animalService;
 
+import com.company.PropertyConstant;
 import com.company.enums.Gender;
 import com.company.model.animals.*;
+import com.company.model.foods.Food;
 import com.company.model.players.Player;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class AnimalService implements IAnimalService{
     @Override
     public void changeHealth(Animal animal, float healthPointChange){
         animal.setHealthStatus(animal.getHealthStatus() + healthPointChange);
-    }
-
-    @Override
-    public boolean validateNewAnimal(Map<Animal, Float> animals, Animal animal){
-        for(var item : animals.keySet()){
-            if(item.getAnimalName().equals(animal.getAnimalName())){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public Map<Animal, Float> notFullHealthAnimals(Map<Animal, Float> animals){
-        Map<Animal, Float> unhealthyAnimals = new LinkedHashMap<Animal, Float>();
-        for(var animal : animals.entrySet()){
-            if(animal.getKey().getHealthStatus() < 100){
-                unhealthyAnimals.put(animal.getKey(), animal.getValue());
-            }
-        }
-        return unhealthyAnimals;
     }
 
     @Override
@@ -100,5 +79,42 @@ public class AnimalService implements IAnimalService{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void feedAnimalByPlayer(Player player, int animalSerial, int foodSerial, double amount){
+        Animal animal = player.getAnimals().get(animalSerial);
+        Food food = player.getFoodWallets().get(foodSerial);
+        var missingHealth = 100 - animal.getHealthStatus();
+        feedValidation(animal, food, amount);
+        var foodUnit = animal.feed(food);
+        var requiredFoodUnit = missingHealth / 10;
+        int eatenFood = 0;
+        for(int i = 0; i < requiredFoodUnit; i++){
+            if(eatenFood > amount){
+                break;
+            }
+            eatenFood += foodUnit;
+            changeHealth(player.getAnimals().get(animalSerial), PropertyConstant.HEALTH_VARIATION);
+        }
+        player.getFoodWallets().get(foodSerial).setFoodAmount(food.getFoodAmount() - eatenFood);
+        System.out.println(animal.getAnimalName() + " has eaten " + eatenFood + "kg of" + food.getFoodType()
+                                   + ". Now its current health is " + player.getAnimals().get(animalSerial).getHealthStatus()
+                                   + ". Remaining " + amount + "of " + food.getFoodType() + " has return to food wallet of player " + player.getName());
+    }
+
+    private void feedValidation(Animal animal, Food food, double amount){
+        var missingHealth = 100 - animal.getHealthStatus();
+        if(missingHealth < 1){
+            System.out.println("This animal health is full. Please choose different animal");
+            return;
+        }
+        if(!animal.foodHabitValidation(food)){
+            System.out.println("This animal cannot eat " + food.getFoodType() + ". Please choose different food");
+            return;
+        }
+        if(food.getFoodAmount()<amount){
+            System.out.println("Invalid amount of food to feed. Please buy more food first.");
+        }
     }
 }

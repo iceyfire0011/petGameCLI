@@ -11,11 +11,8 @@ public class Guppy extends Animal{
     }
 
     @Override
-    public double feed(double amountOfFoodInKg, Food food) {
-        if (this.getHealthStatus() < 100 && this.feedValidation(food)) {
-            this.setHealthStatus(this.getHealthStatus() + this.getHealthStatus() * 0.1);
-            return 0.01 * amountOfFoodInKg;
-        }
-        return 0;
+    public double feed( Food food){
+        this.setHealthStatus(this.getHealthStatus() + this.getHealthStatus() * 0.1);
+        return 0.01;
     }
 }

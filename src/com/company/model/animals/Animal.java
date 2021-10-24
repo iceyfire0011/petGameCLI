@@ -1,5 +1,6 @@
 package com.company.model.animals;
 
+import com.company.PropertyConstant;
 import com.company.enums.FoodType;
 import com.company.enums.Gender;
 import com.company.model.foods.Food;
@@ -11,7 +12,7 @@ public abstract class Animal {
     private double animalPrice;
     private String animalName;
     private Gender sex;
-    private double healthStatus = 100;
+    private double healthStatus = PropertyConstant.MAX_HEALTH_STATUS;
     private boolean MateStatus = false;
     private LinkedList<FoodType> foodHabit;
 
@@ -71,7 +72,7 @@ public abstract class Animal {
     //<Getter and Setter/>
 
     //<Abstraction>
-    public abstract double feed(double amountOfFoodInKg, Food food);
+    public abstract double feed(Food food);
     //<Abstraction/>
 
     //<Helper>
@@ -85,7 +86,7 @@ public abstract class Animal {
         setAnimalName(sb.toString());
     }
 
-    boolean feedValidation(Food food){
+    public boolean foodHabitValidation(Food food){
         return this.getFoodHabit().contains(food);
     }
     //<Helper/>
