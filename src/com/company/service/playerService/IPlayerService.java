@@ -1,13 +1,13 @@
-package com.company.service.PlayerService;
+package com.company.service.playerService;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.company.enums.FoodType;
 import com.company.model.players.Player;
 
 public interface IPlayerService{
     String createPlayer(Player player);
 
     List<Player> getPlayers();
+
+    void reSerializePlayerAnimalListIndex(Player player);
 }

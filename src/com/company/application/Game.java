@@ -1,7 +1,7 @@
 package com.company.application;
 
-import com.company.service.GameService.GameService;
-import com.company.service.GameService.IGameService;
+import com.company.service.gameService.GameService;
+import com.company.service.gameService.IGameService;
 
 import java.util.Scanner;
 

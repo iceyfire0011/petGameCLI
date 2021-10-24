@@ -1,7 +1,8 @@
-package com.company.service.AnimalService;
+package com.company.service.animalService;
 
 import com.company.enums.Gender;
 import com.company.model.animals.*;
+import com.company.model.players.Player;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,10 +10,8 @@ import java.util.Scanner;
 
 public class AnimalService implements IAnimalService{
     @Override
-    public Map<Animal, Float> changeHealth(Animal animal, float currentHealthStatus, float healthPointChange){
-        var animalHealthMap = new LinkedHashMap<Animal, Float>();
-        animalHealthMap.put(animal, currentHealthStatus + healthPointChange);
-        return animalHealthMap;
+    public void changeHealth(Animal animal, float healthPointChange){
+        animal.setHealthStatus(animal.getHealthStatus() + healthPointChange);
     }
 
     @Override
@@ -37,9 +36,9 @@ public class AnimalService implements IAnimalService{
     }
 
     @Override
-    public Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal) {
+    public Animal mating(Animal maleAnimal, Animal femaleAnimal, Animal childAnimal){
         childAnimal.setSex(femaleAnimal.getSex());
-        if(Math.random()>0.5){
+        if(Math.random() > 0.5){
             childAnimal.setSex(maleAnimal.getSex());
         }
         return childAnimal;
@@ -61,7 +60,7 @@ public class AnimalService implements IAnimalService{
                 animal = new Guppy();
                 break;
             case 4:
-                animal=new Mouse();
+                animal = new Mouse();
                 break;
             default:
                 System.out.println("Wrong input! Please select an animal");
@@ -70,8 +69,6 @@ public class AnimalService implements IAnimalService{
     }
 
     public void chooseGender(Animal animal, int genderChoice){
-        System.out.println("male? press- 1");
-        System.out.println("female? press- 2");
         switch(genderChoice){
             case 1:
                 animal.setSex(Gender.Male);
@@ -85,5 +82,23 @@ public class AnimalService implements IAnimalService{
                 chooseGender(animal, sc.nextInt());
                 sc.close();
         }
+    }
+
+    @Override
+    public void animalDetailsListByPlayer(Player player){
+        System.out.println("Serial \t AnimalName \t Gender \t HealthStatus \t MateStatus");
+        for(var keyItem : player.getAnimals().keySet()){
+            var animal = player.getAnimals().get(keyItem);
+            System.out.println(keyItem + " \t " + animal.getAnimalName() + " \t " + animal.getSex() + " \t " + animal.getHealthStatus() + " \t " + animal.isMateStatus());
+        }
+    }
+
+    @Override
+    public boolean isPlayerHasAnimal(Player player){
+        if(player.getAnimals().size() < 1){
+            System.out.println("You have not purchase any animal yet. Please buy one first.");
+            return false;
+        }
+        return true;
     }
 }

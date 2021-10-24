@@ -1,11 +1,12 @@
-package com.company.service.AnimalService;
+package com.company.service.animalService;
 
 import com.company.model.animals.Animal;
+import com.company.model.players.Player;
 
 import java.util.Map;
 
 public interface IAnimalService{
-    Map<Animal, Float> changeHealth(Animal animal, float currentHealthStatus, float healthPointChange);
+    void changeHealth(Animal animal, float healthPointChange);
 
     boolean validateNewAnimal(Map<Animal, Float> animals,Animal animal);
 
@@ -16,5 +17,9 @@ public interface IAnimalService{
     Animal animalFactory(int animalOption);
 
     void chooseGender(Animal animal, int genderChoice);
+
+    void animalDetailsListByPlayer(Player player);
+
+    boolean isPlayerHasAnimal(Player player);
 
 }

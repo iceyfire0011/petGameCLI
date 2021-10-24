@@ -11,8 +11,8 @@ public class Player{
     private int id;
     private String name;
     private double balance;
-    private LinkedList<Animal> animals;
-    private LinkedHashMap<FoodType,Float> foodWallets;
+    private LinkedHashMap<Integer,Animal> animals;
+    private LinkedHashMap<Integer,Food> foodWallets;
 
     public int getId() {
         return id;
@@ -38,19 +38,19 @@ public class Player{
         this.balance = balance;
     }
 
-    public LinkedList<Animal> getAnimals(){
+    public LinkedHashMap<Integer, Animal> getAnimals(){
         return animals;
     }
 
-    public void setAnimals(LinkedList<Animal> animals){
+    public void setAnimals(LinkedHashMap<Integer, Animal> animals){
         this.animals = animals;
     }
 
-    public LinkedHashMap<FoodType, Float> getFoodWallets(){
+    public LinkedHashMap<Integer, Food> getFoodWallets(){
         return foodWallets;
     }
 
-    public void setFoodWallets(LinkedHashMap<FoodType, Float> foodWallets){
+    public void setFoodWallets(LinkedHashMap<Integer, Food> foodWallets){
         this.foodWallets = foodWallets;
     }
 

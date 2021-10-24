@@ -17,6 +17,7 @@ public abstract class Animal {
 
     public Animal(){
         this.setRandomName();
+        this.setFoodHabit(new LinkedList());
     }
 
     //<Getter and Setter>
@@ -50,6 +51,14 @@ public abstract class Animal {
 
     public void setHealthStatus(double healthStatus) {
         this.healthStatus = healthStatus;
+    }
+
+    public boolean isMateStatus(){
+        return MateStatus;
+    }
+
+    public void setMateStatus(boolean mateStatus){
+        MateStatus = mateStatus;
     }
 
     public LinkedList<FoodType> getFoodHabit(){
